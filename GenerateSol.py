@@ -279,15 +279,17 @@ def shaking(k , sol):
 
 
 def local_search(sol):
-    current_cost, risk = Phase1_2(sol)
+    current_cost, current_risk = Phase1_2(sol)
     
     new_risk = float("inf")
+    
     m = 1
     M = 100
     newSol = sol
     row = random.randint(0, len(RC) - 1)
     col = random.randint(0, len(T) - 1)
-    while risk < new_risk and m < M:
+    
+    while new_risk > current_risk and m < M:
         a = random.random()
         newSol[row][col] = a
         new_cost, new_risk = Phase1_2(newSol)
