@@ -3,6 +3,7 @@ import re
 import math
 from operator import itemgetter
 import random
+import numpy as np
 ## STAGE 1 for generating init sol
 
 ## input parameters
@@ -115,7 +116,7 @@ def Phase1_2(r):
             coeff_risk = 0.2
             Max_Inven = 200
             if (up_i < Max_Inven * coeff_risk) or (up_i > Max_Inven):
-                risk_itr = min(up_i - Max_Inven, Max_Inven * coeff_risk - up_i)
+                risk_itr = min(np.abs(up_i - Max_Inven), np.abs(Max_Inven * coeff_risk - up_i)) 
 
             #
             inventory += max( I[i][0]\
@@ -246,7 +247,7 @@ def Phase3(B = 1e100):
     best_value = float("inf")
     for i in range(len(elite_sol)):
         cost, risk = Phase1_2(elite_sol[i])
-        print(cost)
+        
         if cost < best_value:
             base_sol = elite_sol[i]
             best_value = cost
@@ -308,7 +309,7 @@ def worstSol(eliteSol):
 
 def VNS():
     base_sol, elite_sol = Phase3()
-
+    print(Phase1_2(base_sol))
     M = 100 # maximum iterations of VNS
     eliteSize = 5
     k_max = len(RC) * len(T)# maximum percentages of policies to reset ?? |S| * |T|
@@ -353,6 +354,7 @@ def VNS():
             
     return best_sol
 
-print(Risk)
+
 print(VNS())
+print(Phase1_2(VNS()))
 print(1)
