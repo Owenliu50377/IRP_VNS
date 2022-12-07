@@ -285,14 +285,18 @@ def local_search(sol):
     
     m = 1
     M = 100
-    newSol = sol
+    newSol = sol.copy()
     row = random.randint(0, len(RC) - 1)
     col = random.randint(0, len(T) - 1)
-    
-    while new_risk > current_risk and m < M:
+    bestsol = None
+    while  m < M:
         a = random.random()
         newSol[row][col] = a
-        new_cost, new_risk = Phase1_2(newSol)
+        _, current_risk = Phase1_2(newSol)
+        if current_risk < new_risk:
+            bestsol = newSol
+            new_cost, new_risk = Phase1_2(bestsol)
+
         m += 1
 
     return newSol
